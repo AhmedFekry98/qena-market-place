@@ -15,6 +15,7 @@ use Database\Seeders\SystemManagements\PermissionSeeder;
 use Database\Seeders\SystemManagements\RolePermissionSeeder;
 use Database\Seeders\SystemManagements\UserRoleSeeder;
 use Database\Seeders\SystemManagements\GeneralSettingSeeder;
+use Database\Seeders\Banners\BannerSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -32,6 +33,7 @@ class DatabaseSeeder extends Seeder
         CitySeeder::class,
         AreaSeeder::class,
         PropertiesSeeder::class,
+        BannerSeeder::class,
     ];
 
 
