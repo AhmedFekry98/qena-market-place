@@ -20,7 +20,7 @@ class PropertyRequest extends BaseFormRequest
     public function rules(): array
     {
 
-        if($this->method() === 'put') {
+        if($this->method() === 'PUT') {
             return [
                 'property_type_id' => 'sometimes|exists:property_types,id',
                 'agent_id' => 'sometimes|exists:users,id',

@@ -106,17 +106,18 @@ class PropertyController extends Controller
     /**
      * Display the specified property.
      */
-    public function show(Property $property): JsonResponse
+    public function show($id): JsonResponse
     {
+        $property = Property::findOrFail($id);
         return $this->okResponse(PropertyResource::make($property), "Property retrieved successfully");
     }
 
     /**
      * Update the specified property.
      */
-    public function update(PropertyRequest $request, Property $property): JsonResponse
+    public function update(PropertyRequest $request, $id): JsonResponse
     {
-
+        $property = Property::findOrFail($id);
 
         // Update property fields
         $property->update([
@@ -130,7 +131,6 @@ class PropertyController extends Controller
             'price' => $request->price ?? $property->price,
             'status' => $request->status ?? $property->status,
             'is_active' => $request->is_active ?? $property->is_active,
-            'marketer_id' => $request->marketer_id ?? $property->marketer_id,
         ]);
 
         // Update features if provided
@@ -159,9 +159,9 @@ class PropertyController extends Controller
     /**
      * Remove the specified property.
      */
-    public function destroy(Property $property): JsonResponse
+    public function destroy($id): JsonResponse
     {
-
+        $property = Property::findOrFail($id);
         $property->delete();
 
         return $this->okResponse(null, "Property deleted successfully");

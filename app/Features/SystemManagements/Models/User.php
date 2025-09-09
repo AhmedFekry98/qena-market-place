@@ -77,4 +77,9 @@ class User extends Model implements HasMedia
     {
         return $this->hasMany(User::class, 'teacher_id');
     }
+
+    public function isRole($role)
+    {
+        return $this->role == $role;
+    }
 }
