@@ -1,0 +1,35 @@
+<?php
+
+namespace App\Features\AuthManagement\Transformers;
+
+use App\Features\SystemManagements\Transformers\PermissionResource;
+use App\Features\SystemManagements\Transformers\RoleResource;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+
+class ProfileResource extends JsonResource
+{
+    /**
+     * Transform the resource into an array.
+     *
+     * @return array<string, mixed>
+     */
+    public function toArray(Request $request): array
+    {
+        $resource = $this->resource;
+        $role = $resource->role()->name;
+        return [
+            'id' => $resource?->id,
+            'name' => $resource?->name,
+            'phone_code' => $resource?->phone_code,
+            'phone' => $resource?->phone,
+            'teacher_code' => $role == "teacher" ? $resource?->teacher_code : $resource?->teacher?->teacher_code,
+            'image' => $resource?->getFirstMediaUrl('user-image'),
+            'role' => RoleResource::make($resource?->role()),
+            'permissions' => PermissionResource::collection($resource?->allPermissions())->pluck('name'),
+            'created_at' => $resource?->created_at?->format('Y-m-d H:i:s'),
+            'updated_at' => $resource?->updated_at?->format('Y-m-d H:i:s'),
+        ];
+    }
+}

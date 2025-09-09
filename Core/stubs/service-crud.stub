@@ -1,0 +1,103 @@
+<?php
+
+namespace {{ namespace }};
+
+use {{ rootNamespace }}Models\{{ model }};
+
+class {{ class }}
+{
+    private static $model = {{ model }}::class;
+
+    /**
+     * Get All
+     */
+    public function get{{ models }}()
+    {
+        try {
+            ${{ modelPlural }} =  self::$model::get();
+
+            return ${{ modelPlural }};
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    /**
+     * Create One
+     */
+    public function store{{ model }}(string $s)
+    {
+        try {
+            $creationData = collect(
+                $s->all(true)
+            )->except([
+                // ignore any key?
+            ])->toArray();
+
+            // manobolate the data before creation?
+
+            ${{ modelSingular }} =  self::$model::create($creationData);
+
+            // write any logic after creation?
+
+            return ${{ modelSingular }};
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    /**
+     * Get One By Id
+     */
+    public function get{{ model }}ById(string ${{ modelSingular }}Id)
+    {
+        try {
+            ${{ modelSingular }} =  self::$model::find(${{ modelSingular }}Id);
+            return ${{ modelSingular }};
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    /**
+     * Update One By Id
+     */
+    public function update{{ model }}ById(string ${{ modelSingular }}Id, s $s)
+    {
+        try {
+            $updateData = collect(
+                $s->all(true)
+            )->except([
+                // ignore any key?
+            ])->toArray();
+
+            // manobolate the data before update?
+
+            ${{ modelSingular }} =  $this->get{{ model }}ById(${{ modelSingular }}Id);
+            ${{ modelSingular }}->update($updateData);
+
+            // write any logic after update?
+
+            return ${{ modelSingular }};
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    /**
+     * Delete One By Id
+     */
+    public function delete{{ model }}ById(string ${{ modelSingular }}Id)
+    {
+        try {
+
+            // get model to delete by id
+            ${{ modelSingular }} =  $this->get{{ model }}ById(${{ modelSingular }}Id);
+            $deleted = ${{ modelSingular }}->delete();
+
+            return ${{ modelSingular }};
+        } catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+}
