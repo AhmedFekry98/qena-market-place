@@ -29,8 +29,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('auth/profile', [ProfileController::class, 'show']);
     // update auth user profile
     Route::put('auth/profile', [ProfileController::class, 'update']);
-    // update auth student code
-    Route::put('auth/profile/student-code', [ProfileController::class, 'updateStudentCode']);
 });
 
 
