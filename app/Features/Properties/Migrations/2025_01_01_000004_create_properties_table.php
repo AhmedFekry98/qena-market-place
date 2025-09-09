@@ -14,18 +14,21 @@ return new class extends Migration
         Schema::create('properties', function (Blueprint $table) {
             $table->id();
             $table->foreignId('property_type_id')->constrained('property_types')->onDelete('cascade');
+            $table->foreignId('agent_id')->constrained('users')->onDelete('cascade');
             $table->string('title');
             $table->text('description');
-            $table->text('address');
-            $table->string('city');
+            $table->text('address')->nullable();
+            $table->foreignId('area_id')->constrained('areas')->onDelete('cascade');
+            $table->foreignId('city_id')->constrained('cities')->onDelete('cascade');
             $table->decimal('price', 15, 2);
-            $table->decimal('area', 10, 2);
             $table->enum('status', ['available', 'rented', 'sold'])->default('available');
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
+            $table->boolean('is_active')->default(false);
             $table->timestamps();
 
             $table->index(['property_type_id', 'status']);
-            $table->index(['city', 'status']);
+            $table->index(['city_id', 'status']);
+            $table->index(['area_id', 'status']);
             $table->index('created_by');
             $table->index('price');
         });

@@ -6,6 +6,8 @@ namespace Database\Seeders;
 
 use Database\Seeders\Properties\PropertiesSeeder;
 use Database\Seeders\Properties\PropertyTypesSeeder;
+use Database\Seeders\Regions\AreaSeeder;
+use Database\Seeders\Regions\CitySeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeders\SystemManagements\UserSeeder;
 use Database\Seeders\SystemManagements\RoleSeeder;
@@ -27,6 +29,8 @@ class DatabaseSeeder extends Seeder
         RolePermissionSeeder::class,
         UserRoleSeeder::class,
         PropertyTypesSeeder::class,
+        CitySeeder::class,
+        AreaSeeder::class,
         PropertiesSeeder::class,
     ];
 
@@ -42,6 +46,8 @@ class DatabaseSeeder extends Seeder
         UserRoleSeeder::class,
         GeneralSettingSeeder::class,
         PropertyTypesSeeder::class,
+        CitySeeder::class,
+        AreaSeeder::class,
     ];
 
 

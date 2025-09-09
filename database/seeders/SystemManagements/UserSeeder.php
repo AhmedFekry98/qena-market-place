@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
                 'name' => 'Admin User',
                 'phone_code' => '20',
                 'phone' => '123456789',
+                'role' => 'admin',
                 'password' => Hash::make('password'),
             ],
         ]
@@ -28,18 +29,21 @@ class UserSeeder extends Seeder
                 'name' => 'Admin User',
                 'phone_code' => '20',
                 'phone' => '123456789',
+                'role' => 'admin',
                 'password' => Hash::make('password'),
             ],
             [
                 'name' => 'Agent User',
                 'phone_code' => '20',
                 'phone' => '123456788',
+                'role' => 'agent',
                 'password' => Hash::make('password'),
             ],
             [
                 'name' => 'Customer User',
                 'phone_code' => '20',
                 'phone' => '123456787',
+                'role' => 'customer',
                 'password' => Hash::make('password'),
             ],
         ];

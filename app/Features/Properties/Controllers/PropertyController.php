@@ -4,6 +4,9 @@ namespace App\Features\Properties\Controllers;
 
 use App\Features\Properties\Models\Property;
 use App\Features\Properties\Requests\PropertyRequest;
+use App\Features\Properties\Transformers\PropertyCollection;
+use App\Features\Properties\Transformers\PropertyResource;
+use App\Traits\ApiResponses;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
@@ -11,12 +14,13 @@ use Illuminate\Support\Facades\Auth;
 
 class PropertyController extends Controller
 {
+    use ApiResponses;
     /**
      * Display a listing of properties.
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Property::with(['propertyType', 'images', 'features']);
+        $query = Property::query();
 
         // Filter by property type
         if ($request->has('property_type_id')) {
@@ -24,8 +28,13 @@ class PropertyController extends Controller
         }
 
         // Filter by city
-        if ($request->has('city')) {
-            $query->inCity($request->city);
+        if ($request->has('city_id')) {
+            $query->inCity($request->city_id);
+        }
+
+        // Filter by area
+        if ($request->has('area_id')) {
+            $query->inArea($request->area_id);
         }
 
         // Filter by status
@@ -52,10 +61,7 @@ class PropertyController extends Controller
 
         $properties = $query->paginate($request->get('per_page', 15));
 
-        return response()->json([
-            'success' => true,
-            'data' => $properties
-        ]);
+        return $this->okResponse(PropertyCollection::make($properties), "Success api call");
     }
 
     /**
@@ -66,13 +72,15 @@ class PropertyController extends Controller
 
         $property = Property::create([
             'property_type_id' => $request->property_type_id,
+            'agent_id' => $request->agent_id,
             'title' => $request->title,
             'description' => $request->description,
             'address' => $request->address,
-            'city' => $request->city,
+            'city_id' => $request->city_id,
+            'area_id' => $request->area_id,
             'price' => $request->price,
-            'area' => $request->area,
-            'status' => $request->get('status', 'available'),
+            'status' => $request->status ?? 'available',
+            'is_active' => $request->is_active ?? true,
             'created_by' => Auth::id(),
         ]);
 
@@ -85,14 +93,14 @@ class PropertyController extends Controller
                 ]);
             }
         }
+        // add images if provided
+        if ($request->has('images')) {
+            foreach ($request->images as $image) {
+                $property->addMedia($image)->toMediaCollection('images');
+            }
+        }
 
-        $property->load(['propertyType', 'creator', 'features']);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Property created successfully',
-            'data' => $property
-        ], 201);
+        return $this->okResponse(PropertyResource::make($property), "Property created successfully");
     }
 
     /**
@@ -100,12 +108,7 @@ class PropertyController extends Controller
      */
     public function show(Property $property): JsonResponse
     {
-        $property->load(['propertyType', 'creator', 'images', 'features', 'transactions.user']);
-
-        return response()->json([
-            'success' => true,
-            'data' => $property
-        ]);
+        return $this->okResponse(PropertyResource::make($property), "Property retrieved successfully");
     }
 
     /**
@@ -114,6 +117,21 @@ class PropertyController extends Controller
     public function update(PropertyRequest $request, Property $property): JsonResponse
     {
 
+
+        // Update property fields
+        $property->update([
+            'property_type_id' => $request->property_type_id ?? $property->property_type_id,
+            'agent_id' => $request->agent_id ?? $property->agent_id,
+            'title' => $request->title ?? $property->title,
+            'description' => $request->description ?? $property->description,
+            'address' => $request->address ?? $property->address,
+            'city_id' => $request->city_id ?? $property->city_id,
+            'area_id' => $request->area_id ?? $property->area_id,
+            'price' => $request->price ?? $property->price,
+            'status' => $request->status ?? $property->status,
+            'is_active' => $request->is_active ?? $property->is_active,
+            'marketer_id' => $request->marketer_id ?? $property->marketer_id,
+        ]);
 
         // Update features if provided
         if ($request->has('features')) {
@@ -126,13 +144,16 @@ class PropertyController extends Controller
             }
         }
 
-        $property->load(['propertyType', 'creator', 'features']);
+        // Update images if provided
+        if ($request->has('images')) {
+            $property->images()->delete();
+            foreach ($request->images as $image) {
+                $property->addMedia($image)->toMediaCollection('images');
+            }
+        }
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Property updated successfully',
-            'data' => $property
-        ]);
+        return $this->okResponse(PropertyResource::make($property), "Property updated successfully");
+
     }
 
     /**
@@ -143,24 +164,7 @@ class PropertyController extends Controller
 
         $property->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Property deleted successfully'
-        ]);
+        return $this->okResponse(null, "Property deleted successfully");
     }
 
-    /**
-     * Get properties by user.
-     */
-    public function myProperties(): JsonResponse
-    {
-        $properties = Property::with(['propertyType', 'images', 'features'])
-            ->where('created_by', Auth::id())
-            ->paginate(15);
-
-        return response()->json([
-            'success' => true,
-            'data' => $properties
-        ]);
-    }
 }

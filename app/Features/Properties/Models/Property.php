@@ -3,6 +3,8 @@
 namespace App\Features\Properties\Models;
 
 use App\Features\SystemManagements\Models\User;
+use App\Features\Regions\Models\City;
+use App\Features\Regions\Models\Area;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,19 +19,22 @@ class Property extends Model implements HasMedia
 
     protected $fillable = [
         'property_type_id',
+        'agent_id',
         'title',
         'description',
         'address',
-        'city',
+        'area_id',
+        'city_id',
         'price',
-        'area',
         'status',
         'created_by',
+        'marketer_id',
+        'is_active',
     ];
 
     protected $casts = [
         'price' => 'decimal:2',
-        'area' => 'decimal:2',
+        'is_active' => 'boolean',
     ];
 
     /**
@@ -41,11 +46,27 @@ class Property extends Model implements HasMedia
     }
 
     /**
-     * Get the user who created the property.
+     * Get the user that created the property.
      */
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    /**
+     * Get the city that owns the property.
+     */
+    public function city(): BelongsTo
+    {
+        return $this->belongsTo(City::class);
+    }
+
+    /**
+     * Get the area that owns the property.
+     */
+    public function area(): BelongsTo
+    {
+        return $this->belongsTo(Area::class);
     }
 
     /**
@@ -54,30 +75,6 @@ class Property extends Model implements HasMedia
     public function features(): HasMany
     {
         return $this->hasMany(PropertyFeature::class);
-    }
-
-    /**
-     * Get all images for this property.
-     */
-    public function images(): HasMany
-    {
-        return $this->hasMany(PropertyImage::class);
-    }
-
-    /**
-     * Get the primary image for this property.
-     */
-    public function primaryImage(): HasMany
-    {
-        return $this->hasMany(PropertyImage::class)->where('is_primary', true);
-    }
-
-    /**
-     * Get all transactions for this property.
-     */
-    public function transactions(): HasMany
-    {
-        return $this->hasMany(PropertyTransaction::class);
     }
 
     /**
@@ -91,9 +88,17 @@ class Property extends Model implements HasMedia
     /**
      * Scope a query to only include properties in a specific city.
      */
-    public function scopeInCity($query, $city)
+    public function scopeInCity($query, $cityId)
     {
-        return $query->where('city', $city);
+        return $query->where('city_id', $cityId);
+    }
+
+    /**
+     * Scope a query to only include properties in a specific area.
+     */
+    public function scopeInArea($query, $areaId)
+    {
+        return $query->where('area_id', $areaId);
     }
 
     /**
@@ -118,13 +123,10 @@ class Property extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('images')
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/jpg', 'image/gif'])
-            ->singleFile(false);
-
-        $this->addMediaCollection('primary_image')
-            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/jpg', 'image/gif'])
-            ->singleFile(true);
+            ->acceptsMimeTypes(['image/jpeg', 'image/png', 'image/jpg', 'image/gif', 'image/webp'])
+            ->useDisk('public'); // Store in public disk
     }
+
 
     /**
      * Register media conversions for property images.
@@ -156,5 +158,10 @@ class Property extends Model implements HasMedia
     public function getPrimaryImage()
     {
         return $this->getFirstMedia('primary_image');
+    }
+
+    public function agent(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'agent_id');
     }
 }

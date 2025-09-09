@@ -27,7 +27,7 @@ class TokenController extends Controller
             );
         }
 
-            if (!Hash::check($request->password, $user->password) || $user->role()->name != 'admin') {
+            if (!Hash::check($request->password, $user->password) || $user->role != 'admin') {
                 return $this->badResponse(
                     message: 'Invalid credentials'
                 );
@@ -37,17 +37,7 @@ class TokenController extends Controller
             // First, try to find user with customer role
             $user = User::where('phone_code', $request->phone_code)
             ->where('phone', $request->phone)
-            ->where(function ($query) {
-                $query->where(
-                    DB::raw('(SELECT roles.name
-                              FROM roles
-                              INNER JOIN user_roles ON roles.id = user_roles.role_id
-                              WHERE user_roles.user_id = users.id
-                              ORDER BY user_roles.created_at DESC
-                              LIMIT 1)'),
-                    'customer'
-                );
-            })
+            ->where('role', 'customer')
             ->first();
 
             if (!$user) {
@@ -67,14 +57,9 @@ class TokenController extends Controller
                         'phone_code' => $request->phone_code,
                         'phone' => $request->phone,
                         'name' => 'customer 1',
+                        'role' => 'customer',
                         'password' => Hash::make('password'),
                     ]);
-
-                    // Assign customer role to new user
-                    $customerRole = \App\Features\SystemManagements\Models\Role::where('name', 'customer')->first();
-                    if ($customerRole) {
-                        $user->roles()->attach($customerRole->id);
-                    }
                 }
             }
         }

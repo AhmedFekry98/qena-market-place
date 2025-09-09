@@ -18,6 +18,7 @@ class User extends Model implements HasMedia
         'name',
         'phone_code',
         'phone',
+        'role',
         'teacher_id',
         'teacher_code',
         'password',

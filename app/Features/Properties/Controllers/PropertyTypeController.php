@@ -3,23 +3,36 @@
 namespace App\Features\Properties\Controllers;
 
 use App\Features\Properties\Models\PropertyType;
+use App\Features\Properties\Transformers\PropertyTypeCollection;
+use App\Features\Properties\Transformers\PropertyTypeResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Routing\Controller;
+use App\Traits\ApiResponses;
 
 class PropertyTypeController extends Controller
 {
+    use ApiResponses;
     /**
      * Display a listing of property types.
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $propertyTypes = PropertyType::with('properties')->get();
-        
-        return response()->json([
-            'success' => true,
-            'data' => $propertyTypes
-        ]);
+        $propertyTypes = PropertyType::query();
+
+        // Filter by active status
+        if ($request->has('search')) {
+            $search = $request->search;
+            $propertyTypes->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('name_ar', 'like', "%{$search}%")
+                  ->orWhere('code', 'like', "%{$search}%");
+            });
+        }
+
+        $propertyTypes = $propertyTypes->paginate($request->get('per_page', 15));
+
+        return $this->okResponse(PropertyTypeCollection::make($propertyTypes), "Property types retrieved successfully");
     }
 
     /**
@@ -34,57 +47,43 @@ class PropertyTypeController extends Controller
 
         $propertyType = PropertyType::create($request->only(['name', 'description']));
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Property type created successfully',
-            'data' => $propertyType
-        ], 201);
+
+        return $this->okResponse(PropertyTypeResource::make($propertyType), "Property type created successfully");
     }
 
     /**
      * Display the specified property type.
      */
-    public function show(PropertyType $propertyType): JsonResponse
+    public function show($propertyTypeId): JsonResponse
     {
-        $propertyType->load(['properties' => function ($query) {
-            $query->with(['images', 'features']);
-        }]);
-
-        return response()->json([
-            'success' => true,
-            'data' => $propertyType
-        ]);
+        $propertyType = PropertyType::findOrFail($propertyTypeId);
+        return $this->okResponse(PropertyTypeResource::make($propertyType), "Property type retrieved successfully");
     }
 
     /**
      * Update the specified property type.
      */
-    public function update(Request $request, PropertyType $propertyType): JsonResponse
+    public function update(Request $request, $propertyTypeId): JsonResponse
     {
         $request->validate([
-            'name' => 'required|string|max:255|unique:property_types,name,' . $propertyType->id,
+            'name' => 'required|string|max:255|unique:property_types,name,' . $propertyTypeId,
             'description' => 'nullable|string'
         ]);
 
+        $propertyType = PropertyType::findOrFail($propertyTypeId);
         $propertyType->update($request->only(['name', 'description']));
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Property type updated successfully',
-            'data' => $propertyType
-        ]);
+        return $this->okResponse(PropertyTypeResource::make($propertyType), "Property type updated successfully");
     }
 
     /**
      * Remove the specified property type.
      */
-    public function destroy(PropertyType $propertyType): JsonResponse
+    public function destroy($propertyTypeId): JsonResponse
     {
+        $propertyType = PropertyType::findOrFail($propertyTypeId);
         $propertyType->delete();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Property type deleted successfully'
-        ]);
+        return $this->okResponse(null, "Property type deleted successfully");
     }
 }

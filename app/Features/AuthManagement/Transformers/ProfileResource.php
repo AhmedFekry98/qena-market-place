@@ -18,7 +18,7 @@ class ProfileResource extends JsonResource
     public function toArray(Request $request): array
     {
         $resource = $this->resource;
-        $role = $resource->role()->name;
+        $role = $resource?->role;
         return [
             'id' => $resource?->id,
             'name' => $resource?->name,
@@ -26,8 +26,8 @@ class ProfileResource extends JsonResource
             'phone' => $resource?->phone,
             'teacher_code' => $role == "teacher" ? $resource?->teacher_code : $resource?->teacher?->teacher_code,
             'image' => $resource?->getFirstMediaUrl('user-image'),
-            'role' => RoleResource::make($resource?->role()),
-            'permissions' => PermissionResource::collection($resource?->allPermissions())->pluck('name'),
+            'role' => $role,
+            // 'permissions' => PermissionResource::collection($resource?->allPermissions())->pluck('name'),
             'created_at' => $resource?->created_at?->format('Y-m-d H:i:s'),
             'updated_at' => $resource?->updated_at?->format('Y-m-d H:i:s'),
         ];
