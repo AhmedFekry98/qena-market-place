@@ -2,12 +2,15 @@
 
 namespace App\Features\AuthManagement\Controllers;
 
+use App\Features\AuthManagement\Transformers\ProfileCollection;
 use App\Traits\ApiResponses;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Features\AuthManagement\Transformers\ProfileResource;
 use App\Features\SystemManagements\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ProfileController extends Controller
 {
@@ -41,6 +44,58 @@ class ProfileController extends Controller
 
         return $this->okResponse(
             ProfileResource::make($student),
+            "Success api call"
+        );
+    }
+
+    public function registerAgent(Request $request)
+    {
+        try {
+            DB::beginTransaction();
+            $valide = $request->validate([
+                'name' => 'required|string|max:255',
+                "phone_code" => "required|string|max:255",
+                "phone" => "required|string|max:255",
+            ]);
+
+            $data = [
+                'name' => $valide['name'],
+                'password' => Hash::make('Aa@261298'),
+                'phone_code' => $valide['phone_code'],
+                'phone' => $valide['phone'],
+                "role" => "agent"
+            ];
+            $agent = User::create($data);
+
+            // assign role
+            $agent->assignRole('agent');
+
+            DB::commit();
+            return $this->okResponse(
+                ProfileResource::make($agent),
+                "Success api call"
+            );
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $this->badResponse(
+                message: $th->getMessage()
+            );
+        }
+    }
+
+    public function agents(Request $request)
+    {
+        $isPaginate = request('page') ;
+        $agents = User::where('role', 'agent');
+
+        $agents = $isPaginate ?
+         $agents->paginate($request->get('per_page', 15))
+          : $agents->get();
+
+        return $this->okResponse(
+            $isPaginate ?
+            ProfileCollection::make($agents) :
+            ProfileResource::collection($agents),
             "Success api call"
         );
     }

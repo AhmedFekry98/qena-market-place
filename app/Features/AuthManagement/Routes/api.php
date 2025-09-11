@@ -29,6 +29,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('auth/profile', [ProfileController::class, 'show']);
     // update auth user profile
     Route::put('auth/profile', [ProfileController::class, 'update']);
+
+    // get auth user properties
+    Route::middleware('role:admin')->group(function () {
+        Route::get('auth/profiles/agents', [ProfileController::class, 'agents']);
+        Route::post('register/agents', [ProfileController::class, 'registerAgent']);
+    });
 });
 
 

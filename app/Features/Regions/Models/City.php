@@ -38,6 +38,14 @@ class City extends Model
     }
 
     /**
+     * Get all properties in this city.
+     */
+    public function properties(): HasMany
+    {
+        return $this->hasMany(\App\Features\Properties\Models\Property::class);
+    }
+
+    /**
      * Scope a query to only include active cities.
      */
     public function scopeActive($query)

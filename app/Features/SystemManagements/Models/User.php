@@ -19,8 +19,6 @@ class User extends Model implements HasMedia
         'phone_code',
         'phone',
         'role',
-        'teacher_id',
-        'teacher_code',
         'password',
     ];
 
@@ -68,18 +66,24 @@ class User extends Model implements HasMedia
             ->singleFile();
     }
 
-    public function teacher()
-    {
-        return $this->belongsTo(User::class, 'teacher_id');
-    }
-
-    public function students()
-    {
-        return $this->hasMany(User::class, 'teacher_id');
-    }
-
     public function isRole($role)
     {
         return $this->role == $role;
+    }
+
+    /**
+     * Get properties where user is the agent
+     */
+    public function agentProperties()
+    {
+        return $this->hasMany(\App\Features\Properties\Models\Property::class, 'agent_id');
+    }
+
+    public function assignRole($roleName)
+    {
+        $role = \App\Features\SystemManagements\Models\Role::where('name', $roleName)->first();
+        if ($role) {
+            $this->roles()->sync([$role->id]);
+        }
     }
 }

@@ -164,4 +164,12 @@ class Property extends Model implements HasMedia
     {
         return $this->belongsTo(User::class, 'agent_id');
     }
+
+    /**
+     * Scope to get properties where user is the agent
+     */
+    public function scopeWhereAgent($query, $agentId)
+    {
+        return $query->where('agent_id', $agentId);
+    }
 }

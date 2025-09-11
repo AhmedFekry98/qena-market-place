@@ -34,6 +34,7 @@ class DatabaseSeeder extends Seeder
         AreaSeeder::class,
         PropertiesSeeder::class,
         BannerSeeder::class,
+        GeneralSettingSeeder::class,
     ];
 
 

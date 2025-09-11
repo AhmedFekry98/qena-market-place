@@ -40,4 +40,5 @@ class CheckRole
 
         return $this->unauthorizedResponse([], "Plese login by $available_roles role to access this resource");
     }
+
 }
