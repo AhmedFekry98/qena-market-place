@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('area_id')->constrained('areas')->onDelete('cascade');
             $table->foreignId('city_id')->constrained('cities')->onDelete('cascade');
             $table->decimal('price', 15, 2);
+            $table->enum('listing_type', ['rent', 'sell'])->default('rent');
             $table->enum('status', ['available', 'rented', 'sold'])->default('available');
             $table->foreignId('created_by')->constrained('users')->onDelete('cascade');
             $table->boolean('is_active')->default(false);

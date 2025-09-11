@@ -26,6 +26,7 @@ class Property extends Model implements HasMedia
         'area_id',
         'city_id',
         'price',
+        'listing_type',
         'status',
         'created_by',
         'marketer_id',

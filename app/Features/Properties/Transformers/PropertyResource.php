@@ -30,17 +30,42 @@ class PropertyResource extends JsonResource
             'city' => CityResource::make($resource?->city),
             'area' => AreaResource::make($resource?->area),
             'price' => $resource?->price,
+            'listing_type' => $resource?->listing_type,
             'status' => $resource?->status,
             'is_active' => $resource?->is_active,
-            'images' => $resource?->getMedia('images')->map(function ($media) {
-                return [
-                    'id' => $media->id,
-                    'url' => $media->getUrl(),
-                    'name' => $media->name,
-                    'size' => $media->size,
-                    'mime_type' => $media->mime_type,
-                ];
-            }),
+            'images' => $resource?->getMedia('images')->count() > 0 
+                ? $resource?->getMedia('images')->map(function ($media) {
+                    return [
+                        'id' => $media->id,
+                        'url' => $media->getUrl(),
+                        'name' => $media->name,
+                        'size' => $media->size,
+                        'mime_type' => $media->mime_type,
+                    ];
+                })
+                : collect([
+                    [
+                        'id' => null,
+                        'url' => asset('img/default property.png'),
+                        'name' => 'default property.png',
+                        'size' => null,
+                        'mime_type' => 'image/png',
+                    ],
+                    [
+                        'id' => null,
+                        'url' => asset('img/default property.png'),
+                        'name' => 'default property.png',
+                        'size' => null,
+                        'mime_type' => 'image/png',
+                    ],
+                    [
+                        'id' => null,
+                        'url' => asset('img/default property.png'),
+                        'name' => 'default property.png',
+                        'size' => null,
+                        'mime_type' => 'image/png',
+                    ]
+                ]),
             'features' => PropertyFeatureResource::collection($resource?->features),
             'created_at' => $resource?->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $resource?->updated_at->format('Y-m-d H:i:s'),

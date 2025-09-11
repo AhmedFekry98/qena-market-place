@@ -42,6 +42,11 @@ class PropertyController extends Controller
             $query->inArea($request->area_id);
         }
 
+        // Filter by listing type
+        if ($request->has('listing_type')) {
+            $query->where('listing_type', $request->listing_type);
+        }
+
         // Filter by status
         if ($request->has('status')) {
             $query->where('status', $request->status);
@@ -84,6 +89,7 @@ class PropertyController extends Controller
             'city_id' => $request->city_id,
             'area_id' => $request->area_id,
             'price' => $request->price,
+            'listing_type' => $request->listing_type,
             'status' => $request->status ?? 'available',
             'is_active' => $request->is_active ?? true,
             'created_by' => Auth::id(),
@@ -134,6 +140,7 @@ class PropertyController extends Controller
             'city_id' => $request->city_id ?? $property->city_id,
             'area_id' => $request->area_id ?? $property->area_id,
             'price' => $request->price ?? $property->price,
+            'listing_type' => $request->listing_type ?? $property->listing_type,
             'status' => $request->status ?? $property->status,
             'is_active' => $request->is_active ?? $property->is_active,
         ]);
