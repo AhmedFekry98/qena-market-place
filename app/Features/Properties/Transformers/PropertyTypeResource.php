@@ -19,6 +19,7 @@ class PropertyTypeResource extends JsonResource
             'id' => $resource?->id,
             'name' => $resource?->name,
             'description' => $resource?->description,
+            'is_active' => $resource?->is_active,
             'created_at' => $resource?->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $resource?->updated_at->format('Y-m-d H:i:s'),
         ];

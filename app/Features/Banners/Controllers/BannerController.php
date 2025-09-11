@@ -24,7 +24,13 @@ class BannerController extends Controller
         */
     public function index()
     {
-        $result = Banner::all();
+        $role = auth()->user()->role;
+        if ($role !== 'admin') {
+            $result = Banner::where('is_active', true)->get();
+        } else {
+            $result = Banner::all();
+        }
+
 
         if (is_string($result)) {
             return $this->badResponse(
@@ -133,6 +139,29 @@ class BannerController extends Controller
         return $this->okResponse(
             BannerResource::make($result),
             "Success api call"
+        );
+    }
+
+    /**
+     * Change the status of a banner
+     */
+    public function changeStatus(string $id)
+    {
+        $banner = Banner::find($id);
+
+        if (!$banner) {
+            return $this->badResponse(
+                message: "Banner not found"
+            );
+        }
+
+        // Toggle the status
+        $banner->is_active = !$banner->is_active;
+        $banner->save();
+
+        return $this->okResponse(
+            BannerResource::make($banner),
+            "Banner status changed successfully"
         );
     }
 }

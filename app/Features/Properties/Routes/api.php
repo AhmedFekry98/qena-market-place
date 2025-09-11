@@ -17,6 +17,7 @@ Route::middleware('auth:sanctum')->group(function() {
             Route::post('/', [PropertyTypeController::class, 'store']);
             Route::put('/{id}', [PropertyTypeController::class, 'update']);
             Route::delete('/{id}', [PropertyTypeController::class, 'destroy']);
+            Route::put('/{id}/change-status', [PropertyTypeController::class, 'changeStatus']);
         });
     });
 
@@ -28,6 +29,7 @@ Route::middleware('auth:sanctum')->group(function() {
             Route::post('/', [PropertyController::class, 'store']);
             Route::put('/{id}', [PropertyController::class, 'update']);
             Route::delete('/{id}', [PropertyController::class, 'destroy']);
+            Route::put('/{id}/change-status', [PropertyController::class, 'changeStatus']);
         });
     });
 });

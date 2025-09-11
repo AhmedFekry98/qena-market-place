@@ -12,6 +12,11 @@ class Banner extends Model implements HasMedia
     use HasFactory , InteractsWithMedia ;
     protected $fillable = [
         'title',
+        'is_active',
+    ];
+
+    protected $casts = [
+        'is_active' => 'boolean',
     ];
 
     public function registerMediaCollections(): void

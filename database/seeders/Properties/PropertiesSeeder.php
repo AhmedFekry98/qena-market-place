@@ -61,8 +61,9 @@ class PropertiesSeeder extends Seeder
                 'area_id' => $olaya?->id ?? $riyadh->areas()->first()?->id,
                 'price' => 2500.00,
                 'status' => 'available',
-                'is_active' => true,
+                'is_active' => fake()->boolean(),
                 'created_by' => $admin->id,
+
                 'features' => [
                     ['key' => 'غرف النوم', 'value' => '3'],
                     ['key' => 'الحمامات', 'value' => '2'],
@@ -81,7 +82,7 @@ class PropertiesSeeder extends Seeder
                 'area_id' => $malaz?->id ?? $riyadh->areas()->first()?->id,
                 'price' => 8500.00,
                 'status' => 'available',
-                'is_active' => true,
+                'is_active' => fake()->boolean(),
                 'created_by' => $admin->id,
                 'features' => [
                     ['key' => 'غرف النوم', 'value' => '5'],
@@ -101,6 +102,7 @@ class PropertiesSeeder extends Seeder
                 'area_id' => $malaz?->id ?? $riyadh->areas()->first()?->id,
                 'price' => 1500000.00,
                 'status' => 'available',
+                'is_active' => fake()->boolean(),
                 'created_by' => $admin->id,
                 'features' => [
                     ['key' => 'نوع الأرض', 'value' => 'تجارية'],
@@ -117,7 +119,7 @@ class PropertiesSeeder extends Seeder
                 'city_id' => $riyadh->id,
                 'area_id' => $malaz?->id ?? $riyadh->areas()->first()?->id,
                 'price' => 4500.00,
-
+                'is_active' => fake()->boolean(),
                 'status' => 'available',
                 'created_by' => $admin->id,
                 'features' => [
@@ -136,6 +138,7 @@ class PropertiesSeeder extends Seeder
                 'city_id' => $jeddah->id,
                 'area_id' => $corniche?->id ?? $jeddah->areas()->first()?->id,
                 'price' => 3200.00,
+                'is_active' => fake()->boolean(),
                 'status' => 'available',
                 'created_by' => $admin->id,
                 'features' => [
@@ -153,6 +156,7 @@ class PropertiesSeeder extends Seeder
                 'city_id' => $riyadh->id,
                 'area_id' => $malaz?->id ?? $riyadh->areas()->first()?->id,
                 'price' => 800.00,
+                'is_active' => fake()->boolean(),
                 'status' => 'available',
                 'created_by' => $admin->id,
                 'features' => [
@@ -171,6 +175,7 @@ class PropertiesSeeder extends Seeder
                 'city_id' => $dammam->id,
                 'area_id' => $alsalam?->id ?? $dammam->areas()->first()?->id,
                 'price' => 5500.00,
+                'is_active' => fake()->boolean(),
                 'status' => 'available',
                 'created_by' => $admin->id,
                 'features' => [
@@ -189,6 +194,7 @@ class PropertiesSeeder extends Seeder
                 'city_id' => $jeddah->id,
                 'area_id' => $corniche?->id ?? $jeddah->areas()->first()?->id,
                 'price' => 1200.00,
+                'is_active' => fake()->boolean(),
                 'status' => 'available',
                 'created_by' => $admin->id,
                 'features' => [

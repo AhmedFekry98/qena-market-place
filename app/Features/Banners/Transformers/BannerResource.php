@@ -19,6 +19,7 @@ class BannerResource extends JsonResource
             'id' => $resource?->id,
             'title' => $resource?->title,
             'image' => $resource?->getFirstMediaUrl('banners'),
+            'is_active' => $resource?->is_active,
             'created_at' => $resource?->created_at->format('Y-m-d H:i:s'),
             'updated_at' => $resource?->updated_at->format('Y-m-d H:i:s'),
         ];

@@ -20,7 +20,12 @@ class PropertyController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $query = Property::query();
+        $role = auth()->user()->role;
+        if ($role !== 'admin') {
+            $query = Property::query()->where('is_active', true);
+        } else {
+            $query = Property::query();
+        }
 
         // Filter by property type
         if ($request->has('property_type_id')) {
@@ -167,4 +172,26 @@ class PropertyController extends Controller
         return $this->okResponse(null, "Property deleted successfully");
     }
 
+    /**
+     * Change the status of a property
+     */
+    public function changeStatus($id): JsonResponse
+    {
+        $property = Property::find($id);
+
+        if (!$property) {
+            return $this->badResponse(
+                message: "Property not found"
+            );
+        }
+
+        // Toggle the status
+        $property->is_active = !$property->is_active;
+        $property->save();
+
+        return $this->okResponse(
+            PropertyResource::make($property),
+            "Property status changed successfully"
+        );
+    }
 }

@@ -16,43 +16,53 @@ class PropertyTypesSeeder extends Seeder
         $propertyTypes = [
             [
                 'name' => 'Apartment',
-                'description' => 'شقة سكنية - وحدة سكنية في مبنى متعدد الطوابق'
+                'description' => 'شقة سكنية - وحدة سكنية في مبنى متعدد الطوابق',
+                'is_active' => fake()->boolean(),
             ],
             [
                 'name' => 'Land',
-                'description' => 'أرض - قطعة أرض للبيع أو الاستثمار'
+                'description' => 'أرض - قطعة أرض للبيع أو الاستثمار',
+                'is_active' => fake()->boolean(),
             ],
             [
                 'name' => 'Warehouse',
-                'description' => 'مخزن - مساحة تخزين تجارية أو صناعية'
+                'description' => 'مخزن - مساحة تخزين تجارية أو صناعية',
+                'is_active' => fake()->boolean(),
             ],
             [
                 'name' => 'StudentHousing',
-                'description' => 'سكن طلاب - وحدة سكنية مخصصة للطلاب'
+                'description' => 'سكن طلاب - وحدة سكنية مخصصة للطلاب',
+                'is_active' => fake()->boolean(),
             ],
             [
                 'name' => 'Villa',
-                'description' => 'فيلا - منزل منفصل مع حديقة'
+                'description' => 'فيلا - منزل منفصل مع حديقة',
+                'is_active' => fake()->boolean(),
             ],
             [
                 'name' => 'Office',
-                'description' => 'مكتب - مساحة عمل تجارية أو إدارية'
+                'description' => 'مكتب - مساحة عمل تجارية أو إدارية',
+                'is_active' => fake()->boolean(),
             ],
             [
                 'name' => 'Shop',
-                'description' => 'محل تجاري - مساحة تجارية للبيع بالتجزئة'
+                'description' => 'محل تجاري - مساحة تجارية للبيع بالتجزئة',
+                'is_active' => fake()->boolean(),
             ],
             [
                 'name' => 'Farm',
-                'description' => 'مزرعة - أرض زراعية مع مرافق'
+                'description' => 'مزرعة - أرض زراعية مع مرافق',
+                'is_active' => fake()->boolean(),
             ],
             [
                 'name' => 'Chalet',
-                'description' => 'شاليه - منزل صيفي أو للعطلات'
+                'description' => 'شاليه - منزل صيفي أو للعطلات',
+                'is_active' => fake()->boolean(),
             ],
             [
                 'name' => 'Building',
-                'description' => 'مبنى - مبنى كامل للبيع أو الاستثمار'
+                'description' => 'مبنى - مبنى كامل للبيع أو الاستثمار',
+                'is_active' => fake()->boolean(),
             ]
         ];
 

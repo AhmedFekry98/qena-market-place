@@ -18,7 +18,12 @@ class PropertyTypeController extends Controller
      */
     public function index(Request $request): JsonResponse
     {
-        $propertyTypes = PropertyType::query();
+        $role = auth()->user()->role;
+        if ($role !== 'admin') {
+            $propertyTypes = PropertyType::query()->where('is_active', true);
+        } else {
+            $propertyTypes = PropertyType::query();
+        }
 
         // Filter by active status
         if ($request->has('search')) {
@@ -85,5 +90,28 @@ class PropertyTypeController extends Controller
         $propertyType->delete();
 
         return $this->okResponse(null, "Property type deleted successfully");
+    }
+
+    /**
+     * Change the status of a property type
+     */
+    public function changeStatus($propertyTypeId): JsonResponse
+    {
+        $propertyType = PropertyType::find($propertyTypeId);
+
+        if (!$propertyType) {
+            return $this->badResponse(
+                message: "Property type not found"
+            );
+        }
+
+        // Toggle the status
+        $propertyType->is_active = !$propertyType->is_active;
+        $propertyType->save();
+
+        return $this->okResponse(
+            PropertyTypeResource::make($propertyType),
+            "Property type status changed successfully"
+        );
     }
 }
