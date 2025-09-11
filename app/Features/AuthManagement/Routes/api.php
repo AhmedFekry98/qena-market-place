@@ -2,6 +2,7 @@
 
 use App\Features\AuthManagement\Controllers\TokenController;
 use App\Features\AuthManagement\Controllers\ChangePasswordController;
+use App\Features\AuthManagement\Controllers\ExpoController;
 use App\Features\AuthManagement\Controllers\ForgotPasswordController;
 use App\Features\AuthManagement\Controllers\ResetPasswordController;
 use App\Features\AuthManagement\Controllers\ProfileController;
@@ -29,6 +30,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('auth/profile', [ProfileController::class, 'show']);
     // update auth user profile
     Route::put('auth/profile', [ProfileController::class, 'update']);
+
+    // Expo push notification token update or create
+    Route::post('/expo-token', [ExpoController::class, 'store']);
 
     // get auth user properties
     Route::middleware('role:admin')->group(function () {
