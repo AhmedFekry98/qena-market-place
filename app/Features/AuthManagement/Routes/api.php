@@ -32,7 +32,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('auth/profile', [ProfileController::class, 'update']);
 
     // Expo push notification token update or create
-    Route::post('/expo-token', [ExpoController::class, 'store']);
+    Route::post('auth/expo-token', [ExpoController::class, 'store']);
 
     // get auth user properties
     Route::middleware('role:admin')->group(function () {
