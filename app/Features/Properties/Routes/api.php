@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Features\Properties\Controllers\PropertyTypeController;
 use App\Features\Properties\Controllers\PropertyController;
-use App\Features\Properties\Controllers\PropertyTransactionController;
 // use App\Features\Properties\Controllers\PropertyImageController;
 
 // Property Types Routes

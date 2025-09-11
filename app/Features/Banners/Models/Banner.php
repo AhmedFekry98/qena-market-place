@@ -22,7 +22,7 @@ class Banner extends Model implements HasMedia
     public function registerMediaCollections(): void
     {
         $this->addMediaCollection('banners')
-        ->useFallbackUrl('img/default-banner.png')
+        ->useFallbackUrl(asset('img/default-banner.png'))
             ->singleFile();
     }
 }
