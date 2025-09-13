@@ -35,6 +35,8 @@ class DatabaseSeeder extends Seeder
         PropertiesSeeder::class,
         BannerSeeder::class,
         GeneralSettingSeeder::class,
+        TermConditionSeeder::class,
+        PolicySeeder::class,
     ];
 
 
