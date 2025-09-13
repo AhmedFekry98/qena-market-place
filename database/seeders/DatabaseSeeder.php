@@ -16,6 +16,8 @@ use Database\Seeders\SystemManagements\RolePermissionSeeder;
 use Database\Seeders\SystemManagements\UserRoleSeeder;
 use Database\Seeders\SystemManagements\GeneralSettingSeeder;
 use Database\Seeders\Banners\BannerSeeder;
+use Database\Seeders\SystemManagements\PolicySeeder;
+use Database\Seeders\SystemManagements\TermConditionSeeder;
 
 class DatabaseSeeder extends Seeder
 {

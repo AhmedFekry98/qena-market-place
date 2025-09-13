@@ -126,7 +126,7 @@ class GeneralSettingService
             }
 
             $setting->delete();
-            return true;
+            return $setting;
         } catch (Exception $e) {
             return $e->getMessage();
         }
