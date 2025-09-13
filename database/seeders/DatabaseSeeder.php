@@ -17,7 +17,6 @@ use Database\Seeders\SystemManagements\UserRoleSeeder;
 use Database\Seeders\SystemManagements\GeneralSettingSeeder;
 use Database\Seeders\Banners\BannerSeeder;
 use Database\Seeders\SystemManagements\PolicySeeder;
-use Database\Seeders\SystemManagements\TermConditionSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -37,7 +36,6 @@ class DatabaseSeeder extends Seeder
         PropertiesSeeder::class,
         BannerSeeder::class,
         GeneralSettingSeeder::class,
-        TermConditionSeeder::class,
         PolicySeeder::class,
     ];
 
