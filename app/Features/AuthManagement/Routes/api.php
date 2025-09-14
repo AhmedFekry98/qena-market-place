@@ -30,6 +30,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('auth/profile', [ProfileController::class, 'show']);
     // update auth user profile
     Route::put('auth/profile', [ProfileController::class, 'update']);
+     // delete auth user profile
+    Route::delete('auth/profile', [ProfileController::class, 'destroy']);
 
     // Expo push notification token update or create
     Route::post('auth/expo-token', [ExpoController::class, 'store']);

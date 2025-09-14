@@ -59,6 +59,22 @@ class ProfileController extends Controller
         );
     }
 
+    public function destroy(Request $request)
+    {
+        $user = $request->user();
+        if(!$user){
+            return $this->badResponse('user not found');
+        }
+        // check is customer
+        if($user->role != 'customer'){
+            return $this->badResponse('you are not allowed to delete this user');
+        }
+
+        $user->delete();
+
+        return $this->okResponse(null, "Success api call");
+    }
+
     public function updateStudentCode(Request $request)
     {
         $valide = $request->validate([
