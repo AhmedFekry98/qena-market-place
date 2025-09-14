@@ -26,6 +26,39 @@ class ProfileController extends Controller
         );
     }
 
+    public function update(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'sometimes|string|max:255',
+            'email' => 'sometimes|email|max:255',
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+
+        $userId = Auth::user()->id;
+
+        $user = User::find($userId);
+
+        if(!$user){
+            return $this->badResponse('user not found');
+        }
+
+        // update user
+
+        $user->update($validated);
+
+        // update image
+        if($request->has('image')){
+            $user->Media()->delete();
+            $user->addMediaFromRequest('image')->toMediaCollection('user-image');
+        }
+
+
+        return $this->okResponse(
+            ProfileResource::make($user),
+            "Success api call"
+        );
+    }
+
     public function updateStudentCode(Request $request)
     {
         $valide = $request->validate([

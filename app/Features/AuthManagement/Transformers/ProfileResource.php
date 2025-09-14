@@ -24,6 +24,7 @@ class ProfileResource extends JsonResource
             'name' => $resource?->name,
             'phone_code' => $resource?->phone_code,
             'phone' => $resource?->phone,
+            'email' => $resource?->email,
             'image' => $resource?->getFirstMediaUrl('user-image'),
             'role' => $role,
             // 'permissions' => PermissionResource::collection($resource?->allPermissions())->pluck('name'),
