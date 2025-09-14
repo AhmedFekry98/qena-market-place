@@ -18,14 +18,15 @@ class PropertiesSeeder extends Seeder
     public function run(): void
     {
         // Get property types and users for relationships
-        $apartmentType = PropertyType::where('name', 'Apartment')->first();
-        $villaType = PropertyType::where('name', 'Villa')->first();
-        $landType = PropertyType::where('name', 'Land')->first();
-        $officeType = PropertyType::where('name', 'Office')->first();
-        $shopType = PropertyType::where('name', 'Shop')->first();
-        $studentHousingType = PropertyType::where('name', 'StudentHousing')->first();
-        $warehouseType = PropertyType::where('name', 'Warehouse')->first();
-        $chaletType = PropertyType::where('name', 'Chalet')->first();
+        $apartmentType = PropertyType::where('name', 'شقة')->first();
+        $villaType = PropertyType::where('name', 'فيلا')->first();
+        $landType = PropertyType::where('name', 'أرض')->first();
+        $officeType = PropertyType::where('name', 'مكتب')->first();
+        $shopType = PropertyType::where('name', 'محل تجاري')->first();
+        $studentHousingType = PropertyType::where('name', 'سكن طلاب')->first();
+        $warehouseType = PropertyType::where('name', 'مخزن')->first();
+        $chaletType = PropertyType::where('name', 'شالية')->first();
+        $farmType = PropertyType::where('name', 'مزرعة')->first();
 
         // Get admin user for property creation
         $admin = User::where('role', 'admin')->first();
@@ -45,8 +46,23 @@ class PropertiesSeeder extends Seeder
         $corniche = Area::where('name', 'Corniche')->first();
 
         // Check if required data exists before creating properties
-        if (!$admin || !$agent || !$apartmentType || !$riyadh) {
+        if (!$admin) {
             $this->command->warn('Skipping PropertiesSeeder: Required data not found (admin, agent, apartment type, or Riyadh city)');
+            return;
+        }
+
+        if (!$agent) {
+            $this->command->warn('Skipping PropertiesSeeder: Required data not found (agent)');
+            return;
+        }
+
+        if (!$apartmentType) {
+            $this->command->warn('Skipping PropertiesSeeder: Required data not found (apartment type)');
+            return;
+        }
+
+        if (!$riyadh) {
+            $this->command->warn('Skipping PropertiesSeeder: Required data not found (Riyadh city)');
             return;
         }
 
