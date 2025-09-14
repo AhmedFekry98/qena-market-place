@@ -15,52 +15,52 @@ class PropertyTypesSeeder extends Seeder
     {
         $propertyTypes = [
             [
-                'name' => 'Apartment',
+                'name' => 'شقة',
                 'description' => 'شقة سكنية - وحدة سكنية في مبنى متعدد الطوابق',
                 'is_active' => fake()->boolean(),
             ],
             [
-                'name' => 'Land',
+                'name' => 'أرض',
                 'description' => 'أرض - قطعة أرض للبيع أو الاستثمار',
                 'is_active' => fake()->boolean(),
             ],
             [
-                'name' => 'Warehouse',
+                'name' => 'مخزن',
                 'description' => 'مخزن - مساحة تخزين تجارية أو صناعية',
                 'is_active' => fake()->boolean(),
             ],
             [
-                'name' => 'StudentHousing',
+                'name' => 'سكن طلاب',
                 'description' => 'سكن طلاب - وحدة سكنية مخصصة للطلاب',
                 'is_active' => fake()->boolean(),
             ],
             [
-                'name' => 'Villa',
+                'name' => 'فيلا',
                 'description' => 'فيلا - منزل منفصل مع حديقة',
                 'is_active' => fake()->boolean(),
             ],
             [
-                'name' => 'Office',
+                'name' => 'مكتب',
                 'description' => 'مكتب - مساحة عمل تجارية أو إدارية',
                 'is_active' => fake()->boolean(),
             ],
             [
-                'name' => 'Shop',
+                'name' => 'محل تجاري',
                 'description' => 'محل تجاري - مساحة تجارية للبيع بالتجزئة',
                 'is_active' => fake()->boolean(),
             ],
             [
-                'name' => 'Farm',
+                'name' => 'مزرعة',
                 'description' => 'مزرعة - أرض زراعية مع مرافق',
                 'is_active' => fake()->boolean(),
             ],
             [
-                'name' => 'Chalet',
+                'name' => 'شالية',
                 'description' => 'شاليه - منزل صيفي أو للعطلات',
                 'is_active' => fake()->boolean(),
             ],
             [
-                'name' => 'Building',
+                'name' => 'مبني',
                 'description' => 'مبنى - مبنى كامل للبيع أو الاستثمار',
                 'is_active' => fake()->boolean(),
             ]
