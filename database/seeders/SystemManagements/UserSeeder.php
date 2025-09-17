@@ -17,9 +17,23 @@ class UserSeeder extends Seeder
         $users = app()->environment('production')
         ? [
             [
-                'name' => 'Admin User',
+                'name' => 'Ahmed Fekry',
                 'phone_code' => '20',
-                'phone' => '123456789',
+                'phone' => '1012182626',
+                'role' => 'admin',
+                'password' => Hash::make('password'),
+            ],
+            [
+                'name' => 'Ayman Mansoure',
+                'phone_code' => '20',
+                'phone' => '1023440284',
+                'role' => 'agent',
+                'password' => Hash::make('password'),
+            ],
+             [
+                'name' => 'Abdullah Mohamed',
+                'phone_code' => '20',
+                'phone' => '1011645625',
                 'role' => 'admin',
                 'password' => Hash::make('password'),
             ],
